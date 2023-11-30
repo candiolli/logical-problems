@@ -1,4 +1,4 @@
-package roche;
+package com.silascandiolli;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,8 +16,6 @@ public class AccountDistribute {
         List<Account> accountsSorted = accountData.stream().sorted(Comparator.comparing(c -> c.amount)).toList();
 
         distributeAmounts(accountsSorted);
-
-
 
     }
 
