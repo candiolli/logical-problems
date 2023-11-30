@@ -13,9 +13,11 @@ public class AccountDistribute {
 
         storeData(accounts);
 
-        distributeAmounts(accounts);
+        List<Account> accountsSorted = accountData.stream().sorted(Comparator.comparing(c -> c.amount)).toList();
 
-        executeTransaction("","", "");
+        distributeAmounts(accountsSorted);
+
+
 
     }
 
@@ -26,19 +28,26 @@ public class AccountDistribute {
         }
     }
 
-    private static void distributeAmounts(String[] accounts) {
-        List<Account> accounts1 = accountData.stream().sorted(Comparator.comparing(c -> c.amount)).toList();
-
-        for (Account ac : accounts1) {
-
+    private static void distributeAmounts(List<Account> accounts) {
+        Account accoutNeedMoney = null;
+        for (Account ac : accounts) {
+            int e = 0;
+            int i = 0;
+            if (ac.amount < 100) {
+                e = ac.amount - 100;
+                accoutNeedMoney = ac;
+            }
             if (ac.amount > 100) {
-                int i = ac.amount - 100;
-
+                i = ac.amount - 100;
+            }
+            if (e == i) {
+                accoutNeedMoney.amount = accoutNeedMoney.amount + i;
+                executeTransaction(ac.name, accoutNeedMoney.name, i);
             }
         }
     }
 
-    public static void executeTransaction(String accountFrom, String accountTo, String amount) {
+    public static void executeTransaction(String accountFrom, String accountTo, int amount) {
         System.out.println("from " + accountFrom + " to " + accountTo + ", amount " + amount);
     }
 
